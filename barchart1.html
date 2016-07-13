@@ -18,6 +18,9 @@
     stroke: #000;
 	  shape-rendering: crispEdges;
   }
+	.legend { border-bottom:1px solid black; }
+	.bartext{ font-size: 8px; word-spacing: 0px}
+
 </style>
 </head>
 <body>
@@ -29,7 +32,7 @@ var margin = {top: 20, right: 20, bottom: 120, left: 250},
     height = 500 - margin.top - margin.bottom;
 
 // set the ranges
-var x = d3.scale.ordinal().rangeRoundBands([-6, width], 0.2);
+var x = d3.scale.ordinal().rangeRoundBands([-6, width], 0.142);
 var y = d3.scale.linear().range([height, 0]);
 
 // define the axis
@@ -71,10 +74,9 @@ d3.json("data1.json", function(error, data) {
       .call(xAxis)
     .selectAll("text")
       .style("text-anchor", "end")
-      .attr("dx", "-1.9em")
+      .attr("dx", "-1.8em")
       .attr("dy", "-0.5em")
       .attr("transform", "rotate(-90)" );
-
 
 
   svg.append("g")
@@ -97,7 +99,20 @@ d3.json("data1.json", function(error, data) {
       .attr("x", function(d) { return x(d["Country Name"]); })
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d["GDP Billions (US$) - 2013"]); })
-      .attr("height", function(d) { return height - y(d["GDP Billions (US$) - 2013"]); });
+			.attr("rect", function(d) { return y(d["GDP Billions (US$) - 2013"]); })
+      .attr("height", function(d) { return height - y(d["GDP Billions (US$) - 2013"]); })
+
+svg.selectAll(".bartext")
+.data(data)
+.enter()
+.append("text")
+.attr("class", "bartext")
+
+.attr("text-anchor", "middle")
+.attr("fill", "black")
+.attr("x", function(d) { return x(d["Country Name"]) + x.rangeBand() / 2 ; })
+.attr("y", function(d) { return  y(d["GDP Billions (US$) - 2013"]); })
+  .text(function(d){return d["GDP Billions (US$) - 2013"]});
 
 });
 
