@@ -12,13 +12,12 @@ var jArray=[];
 var newi=header.indexOf('Country Name');
 var cnt=header.indexOf('Population (Millions) 2013');
 var cnt1=header.indexOf('GDP Billions (USD) 2013');
-if ( final_obj[map[line[newi]]]==undefined) {
-  final_obj[map[line[newi]]]={};
-}
   for (i = 1; i < noOfRow-1; i++) {
     var line=arrayOne[i].split(',');
     if(line[newi] != "European Union") {
-
+      if ( final_obj[map[line[newi]]]==undefined) {
+        final_obj[map[line[newi]]]={};
+      }
       if(final_obj[map[line[newi]]][header[cnt]]==undefined) {
         final_obj[map[line[newi]]][header[cnt]] = 0;
       }
